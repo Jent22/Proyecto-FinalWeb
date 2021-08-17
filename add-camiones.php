@@ -63,6 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     if (empty($ModeloError_err) && empty($ColorError) && empty($ComentarioError) && empty($ValorError) && empty($LavadorasError) && empty($PesoError) && empty($MarcaError)) {
           $sql = "INSERT INTO `camiones` (`Modelo`, `Color`, `Comentario`, `Lavadoras`, `Valor`,`Peso`,`Marca`) VALUES ('$Modelo', '$Color', '$Comentario', '$Lavadoras', '$Valor','$Peso','$Marca')";
+          $mas = "SELECT *
+          FROM 'lavadoras'
+          ORDER by ID DESC
+          LIMIT 1";
 
           if (mysqli_query($conn, $sql)) {
               header("location: index.php");
