@@ -7,7 +7,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
     $query = "DELETE FROM lavadoras WHERE id = '$id'";
 
     if (mysqli_query($conn, $query)) {
-        header("location: index.php");
+        header("location: dashboard.php");
     } else {
          echo "Hubo un error, intente de nuevo.";
     }
@@ -16,7 +16,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 } else {
     if (empty(trim($_GET["id"]))) {
         echo "Hubo un error, intente de nuevo.";
-        header("location: index.php");
+        header("location: dashboard.php");
         exit();
     }
 }
@@ -49,7 +49,7 @@ mysqli_close($conn);
                             <p>Seguro que borrara el registro?</p><br>
                             <p>
                                 <input type="submit" value="Si" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-default">No</a>
+                                <a href="dashboard.php" class="btn btn-default">No</a>
                             </p>
                         </div>
                     </form>

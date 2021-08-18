@@ -59,7 +59,7 @@ require_once "addonlyphp.php";
                             <span class="help-block"><?php echo $PesoError;?></span>
                         </div>
                         <input type="submit" class="btn btn-primary" value="Agregar registro">
-                        <a href="index.php" class="btn btn-default">Cancelar</a>
+                        <a href="dashboard.php" class="btn btn-default">Cancelar</a>
                     </form>
                 </div>
             </div>

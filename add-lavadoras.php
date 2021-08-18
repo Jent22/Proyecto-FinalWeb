@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $sql = "INSERT INTO `lavadoras` (`Modelo`,`Valor`,`Peso`,`Marca`) VALUES ('$Modelo','$Valor','$Peso','$Marca')";
 
           if (mysqli_query($conn, $sql)) {
-              header("location: index.php");
+              header("location: dashboard.php");
           } else {
                echo "Algo salio mal, intentelo de nuevo.";
           }
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
                         <div class="wrapper">
                         <input type="submit" class="btn btn-primary" value="Aceptar">
-                        <a href="index.php" class="btn btn-default">Cancelar</a>
+                        <a href="dashboard.php" class="btn btn-default">Cancelar</a>
                     </form>
                 </div>
             </div>
