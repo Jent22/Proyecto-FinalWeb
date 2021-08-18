@@ -12,27 +12,31 @@
               margin: 0 auto;
           }
       </style>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Tarea 8</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Proyecto Final</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="index.php">Lavadoras y camiones <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="index.php">Lavadoras y camiones<span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="usuarios.php">Usuarios</a>
+        <a class="nav-link" href="Usuarios">Usuarios</a>
       </li>
-      
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+    <a href="exit.php">
+            <span class="glyphicon glyphicon-off" id= "exit"></span>
+        </a>
+    </form>
   </div>
 </nav>
   </head>
   <body>
-  <a href="exit.php">
-            <span class="glyphicon glyphicon-off" id= "exit"></span>
-        </a>
+
   <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
@@ -73,8 +77,10 @@
                                             <td>" . $user['Comentario'] . "</td>
                                             <td>
                                               <a href='edit-camiones.php?id=". $user['ID'] ."' title='Edit User' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                              
                                               <a href='delete-camiones.php?id=". $user['ID'] ."' title='Delete User' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
-                                            </td>
+                                              <a href='print.php?id=". $user['ID'] ."' title='Print User' data-toggle='tooltip'><span class='glyphicon glyphicon-download'></span></a>
+                                              </td>
                                           </tr>";
                                 }
                                 echo "</tbody>

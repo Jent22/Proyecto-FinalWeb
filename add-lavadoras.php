@@ -6,7 +6,7 @@ if(!empty($_POST))
         $alert='<p class="msg_error">Todos los campos son obligatorios.</p>';
     }
     else{
-        include "conn.php";
+        include "../conn.php";
         $Marca = $_POST['Marca'];
         $Modelo = $_POST['Modelo'];
         $Valor = $_POST['Valor'];
@@ -68,28 +68,32 @@ if(!empty($_POST))
                         <div class="form-group">
                             <label form="Camiones">Camion</label>
                             <?php
-
+                            require_once "conn.php";
                             $query = mysqli_query($conn,"SELECT * FROM camiones");
                             $result = mysqli_num_rows($query);
                             
 
                             ?>
-                            <select class="form-select" name="IDcamion" id="">
+                            <select class="form-select" name="IDcamion" id="IDcamion">
                             <?php
                             if($result>0){
-                                while($IDcamion2 = mysqli_fetch_array($query_rol)){
+                                while($IDcamion = mysqli_fetch_array($query_rol)){
                             ?>
-                            <option value="<?php echo $IDcamion2["ID"];?>"><?php echo $IDcamion2["Marca"]?></option>
+                            <option value="<?php echo $IDcamion["ID"];?>"><?php echo $IDcamion["Marca"]?></option>
                             <?php
                             
                                 }
                             }
                             ?>
                             </select>
+                            <input type="submit" class="btn btn-primary" value="Aceptar">
+                        <a href="index.php" class="btn btn-default">Cancelar</a>
                         </div>
+                        
                         <div class="wrapper">
                         <input type="submit" class="btn btn-primary" value="Aceptar">
                         <a href="index.php" class="btn btn-default">Cancelar</a>
+                        </div>
                     </form>
                 </div>
             </div>
