@@ -1,28 +1,53 @@
 <?php
-if(!empty($_POST))
-{
-    $alert='';
-    if(empty($_POST['Marca'])||empty($_POST['Modelo'])||empty($_POST['Valor'])||empty($_POST['Peso'])||empty($_POST['IDcamion'])){
-        $alert='<p class="msg_error">Todos los campos son obligatorios.</p>';
-    }
-    else{
-        include "../conn.php";
-        $Marca = $_POST['Marca'];
-        $Modelo = $_POST['Modelo'];
-        $Valor = $_POST['Valor'];
-        $Peso = $_POST['Peso'];
-        $IDcamion = $_POST['IDcamion'];
-        $query = mysqli_query($conn,"INSERT INTO lavadoras(Marca,Modelo,Valor,Peso,IDcamion)VALUES('$Marca','$Modelo','$Valor','$Peso','$IDcamion')");
-        if($query){
-            $alert='<p class="msg_save">Usuario creado correctamente</p>';
-        }
-        else{
-            $alert='<p class="msg_error">Error</p>';
-        }
-    }
-}
+require_once "conn.php";
 
+$Modelo  = $Valor = $Peso = $Marca = "";
+$ModeloError = $ValorError = $PesoError = $MarcaError = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $Modelo = trim($_POST["Modelo"]);
+    if (empty($Modelo)) {
+        $ModeloError = "Se requiere de un Modelo.";
+    } elseif (!filter_var($Modelo, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))) {
+        $ModeloError = "Modelo no valido.";
+    } else {
+        $Modelo = $Modelo;
+    }
+
+    $Valor = trim($_POST["Valor"]);
+    if(empty($Valor)){
+        $ValorError = "El Valor es requerido.";
+    } else {
+        $Valor = $Valor;
+    }
+
+    $Peso = trim($_POST["Peso"]);
+    if(empty($Peso)){
+        $PesoError = "El Peso es requerido.";
+    } else {
+        $Peso = $Peso;
+    }
+
+    $Marca = trim($_POST["Marca"]);
+    if(empty($Peso)){
+        $PesoError = "La Marca es requerida.";
+    } else {
+        $Marca = $Marca;
+    }
+    
+    if (empty($ModeloError_err) && empty($ColorError) && empty($ComentarioError) && empty($ValorError) && empty($LavadorasError) && empty($PesoError) && empty($MarcaError)) {
+          $sql = "INSERT INTO `lavadoras` (`Modelo`,`Valor`,`Peso`,`Marca`) VALUES ('$Modelo','$Valor','$Peso','$Marca')";
+
+          if (mysqli_query($conn, $sql)) {
+              header("location: index.php");
+          } else {
+               echo "Algo salio mal, intentelo de nuevo.";
+          }
+      }
+    mysqli_close($conn);
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,56 +69,33 @@ if(!empty($_POST))
                     <div class="page-header">
                         <h2>Crear registro de lavadoras</h2>
                     </div>
-                    <div class="alert"><?php echo isset($alert)?$alert:'' ?></div>
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-                        <div class="form-group">
+                        <div class="form-group <?php echo (!empty($ModeloError)) ? 'has-error' : ''; ?>">
                             <label>Modelo</label>
                             <input type="text" name="Modelo" class="form-control" value="">
+                            <span class="help-block"><?php echo $ModeloError;?></span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group <?php echo (!empty($MarcaError)) ? 'has-error' : ''; ?>">
                             <label>Marca</label>
                             <input type="text" name="Marca" class="form-control" value="">
+                            <span class="help-block"><?php echo $MarcaError;?></span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group <?php echo (!empty($PesoError)) ? 'has-error' : ''; ?>">
                             <label>Peso</label>
                             <input type="text" name="Peso" class="form-control" value="">
+                            <span class="help-block"><?php echo $PesoError;?></span>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group <?php echo (!empty($ValorError)) ? 'has-error' : ''; ?>">
                             <label>Valor</label>
                             <input name="Valor" class="form-control">
+                            <span class="help-block"><?php echo $ValorError;?></span>
                         </div>
-                        <div class="form-group">
-                            <label form="Camiones">Camion</label>
-                            <?php
-                            require_once "conn.php";
-                            $query = mysqli_query($conn,"SELECT * FROM camiones");
-                            $result = mysqli_num_rows($query);
-                            
-
-                            ?>
-                            <select class="form-select" name="IDcamion" id="IDcamion">
-                            <?php
-                            if($result>0){
-                                while($IDcamion = mysqli_fetch_array($query_rol)){
-                            ?>
-                            <option value="<?php echo $IDcamion["ID"];?>"><?php echo $IDcamion["Marca"]?></option>
-                            <?php
-                            
-                                }
-                            }
-                            ?>
-                            </select>
-                            <input type="submit" class="btn btn-primary" value="Aceptar">
-                        <a href="index.php" class="btn btn-default">Cancelar</a>
-                        </div>
-                        
                         <div class="wrapper">
                         <input type="submit" class="btn btn-primary" value="Aceptar">
                         <a href="index.php" class="btn btn-default">Cancelar</a>
-                        </div>
                     </form>
                 </div>
             </div>
