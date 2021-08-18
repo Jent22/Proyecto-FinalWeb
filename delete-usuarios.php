@@ -15,7 +15,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
 } else {
     if (empty(trim($_GET["id"]))) {
         echo "Hubo un error, intente de nuevo.";
-        header("location: index.php");
+        header("location: usuarios.php");
         exit();
     }
 }
@@ -47,7 +47,7 @@ if (isset($_POST["id"]) && !empty($_POST["id"])) {
                             <p>Seguro que borrara el registro?</p><br>
                             <p>
                                 <input type="submit" value="Si" class="btn btn-danger">
-                                <a href="index.php" class="btn btn-default">No</a>
+                                <a href="usuarios.php" class="btn btn-default">No</a>
                             </p>
                         </div>
                     </form>
