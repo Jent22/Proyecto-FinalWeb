@@ -1,81 +1,5 @@
 <?php
-require_once "conn.php";
-
-$Modelo = $Color = $Comentario = $Lavadoras = $Valor = $Peso = $Marca = "";
-$ModeloError = $ColorError = $ComentarioError = $LavadorasError = $ValorError = $PesoError = $MarcaError = "";
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $Modelo = trim($_POST["Modelo"]);
-    if (empty($Modelo)) {
-        $ModeloError = "Se requiere de un Modelo.";
-    } elseif (!filter_var($Modelo, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))) {
-        $ModeloError = "Modelo no valido.";
-    } else {
-        $Modelo = $Modelo;
-    }
-
-    $Color = trim($_POST["Color"]);
-
-    if (empty($Color)) {
-        $ColorError = "Color requerido.";
-    } elseif (!filter_var($Color, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))) {
-        $ColorError = "Color no valido.";
-    } else {
-        $Color = $Color;
-    }
-
-    $Comentario = trim($_POST["Comentario"]);
-    if (empty($Comentario)) {
-        $ComentarioError = "El Comentario es requerido.";
-    } elseif (!filter_var($Comentario, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>"/^[a-zA-Z\s]+$/")))) {
-        $ComentarioError = "Digite un Comentario valido.";
-    } else {
-        $Comentario = $Comentario;
-    }
-
-    $Lavadoras = trim($_POST["Lavadoras"]);
-    if(empty($Lavadoras)){
-        $LavadorasError = "Lavadoras es requerida.";
-    } else {
-        $Lavadoras = $Lavadoras;
-    }
-
-    $Valor = trim($_POST["Valor"]);
-    if(empty($Valor)){
-        $ValorError = "El Valor es requerido.";
-    } else {
-        $Valor = $Valor;
-    }
-
-    $Peso = trim($_POST["Peso"]);
-    if(empty($Peso)){
-        $PesoError = "El Peso es requerido.";
-    } else {
-        $Peso = $Peso;
-    }
-
-    $Marca = trim($_POST["Marca"]);
-    if(empty($Peso)){
-        $PesoError = "La Marca es requerida.";
-    } else {
-        $Marca = $Marca;
-    }
-    
-    if (empty($ModeloError_err) && empty($ColorError) && empty($ComentarioError) && empty($ValorError) && empty($LavadorasError) && empty($PesoError) && empty($MarcaError)) {
-          $sql = "INSERT INTO `camiones` (`Modelo`, `Color`, `Comentario`, `Lavadoras`, `Valor`,`Peso`,`Marca`) VALUES ('$Modelo', '$Color', '$Comentario', '$Lavadoras', '$Valor','$Peso','$Marca')";
-          $mas = "SELECT *
-          FROM 'lavadoras'
-          ORDER by ID DESC
-          LIMIT 1";
-
-          if (mysqli_query($conn, $sql)) {
-              header("location: index.php");
-          } else {
-               echo "Algo salio mal, intentelo de nuevo.";
-          }
-      }
-    mysqli_close($conn);
-}
+require_once "addonlyphp.php";
 ?>
 
 <!DOCTYPE html>
@@ -124,25 +48,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <span class="help-block"><?php echo $ComentarioError;?></span>
                         </div>
 
-                        <div class="form-group <?php echo (!empty($LavadorasError)) ? 'has-error' : ''; ?>">
-                            <label>Lavadoras</label>
-                            <input type="text" name="Lavadoras" class="form-control" value="">
-                            <span class="help-block"><?php echo $LavadorasError;?></span>
-                        </div>
-
                         <div class="form-group <?php echo (!empty($ValorError)) ? 'has-error' : ''; ?>">
                             <label>Valor</label>
                             <input name="Valor" class="form-control">
                             <span class="help-block"><?php echo $ValorError;?></span>
                         </div>
+                        <div class="form-group <?php echo (!empty($PesoError)) ? 'has-error' : ''; ?>">
+                            <label>Peso</label>
+                            <input name="Peso" class="form-control">
+                            <span class="help-block"><?php echo $PesoError;?></span>
+                        </div>
+                        
                         <div class="wrapper">
         <div class="container-fluid">
             <div class="row">
               <h2 class="text-center">Seleccione las lavadoras a agregar</h2>
                 <div class="col-md-12">
                     <?php
-
-                    $data = "SELECT * FROM lavadoras WHERE  ";
+                     $rowSQL = mysqli_query( $conn,"SELECT MAX( ID ) AS max FROM `camiones`;" );
+                     if (mysqli_query($conn, $sql)) {
+                        $last_id = mysqli_insert_id($conn);
+                    }
+                    //  $row = mysqli_fetch_array( $rowSQL );
+                    //  $LastID = $row['max'];
+                    // $idcamion=($LastID+1);
+                    require_once "addonlyphp.php";
+                    $data = "SELECT * FROM lavadoras WHERE ID = $idcamion";
                     if($users = mysqli_query($conn, $data)){
                         if(mysqli_num_rows($users) > 0){
                             echo "<table class='table table-bordered table-striped'>
